@@ -1,0 +1,32 @@
+version: '3'
+services:
+  demo-app:
+    restart: always
+    image: souravsahoo08/demo:v1
+    ports:
+      - "8085:8085"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: admin
+      DB_PASSWORD: 1234
+    depends_on:
+      - mysql
+    networks:
+      - demo-net
+      
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: demo
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+    networks:
+      - demo-net  
+networks:
+  demo-net:
+    driver: "bridge"
+      
+    

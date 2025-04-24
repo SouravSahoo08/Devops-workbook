@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-deployment
+  labels:
+    app: demo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - name: demo-app
+        image: souravsahoo08/demo:v5
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                name: demo-configmap
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: demo-configmap
+                key: DB_PASSWORD
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  selector:
+    app: demo-app
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085
+  type: LoadBalancer
+
