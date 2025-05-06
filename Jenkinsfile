@@ -35,6 +35,10 @@ pipeline{
         stage("Snyk scan"){
             steps{
                 dir("${env.PROJECT_DIR}"){
+
+                    // make mvnw file executable for snyk scan
+                    sh 'chmod +x ./mvnw'
+
                     snykSecurity(
                         snykInstallation: 'snyk@latest',
                         snykTokenId: 'snyk-api-token',
