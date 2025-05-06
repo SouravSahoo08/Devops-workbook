@@ -42,7 +42,7 @@ pipeline{
                     snykSecurity(
                         snykInstallation: 'snyk@latest',
                         snykTokenId: 'snyk-api-token',
-                        failOnIssues: false
+                        failOnIssues: false,
                         monitorProjectOnBuild: true
                     )
                 }
