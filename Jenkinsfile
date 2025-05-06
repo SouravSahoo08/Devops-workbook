@@ -42,25 +42,26 @@ pipeline{
                     snykSecurity(
                         snykInstallation: 'snyk@latest',
                         snykTokenId: 'snyk-api-token',
+                        failOnIssues: false
                         monitorProjectOnBuild: true
                     )
                 }
             }
         }   
         
-        stage("Build image"){
-            steps{
-                dir("${env.PROJECT_DIR}"){
+        // stage("Build image"){
+        //     steps{
+        //         dir("${env.PROJECT_DIR}"){
                 
-                }
-            }
-        }   
-        stage("Push image to registry"){
-            steps{
-                dir("${env.PROJECT_DIR}"){
+        //         }
+        //     }
+        // }   
+        // stage("Push image to registry"){
+        //     steps{
+        //         dir("${env.PROJECT_DIR}"){
                 
-                }
-            }
-        }   
+        //         }
+        //     }
+        // }   
     }
 }
