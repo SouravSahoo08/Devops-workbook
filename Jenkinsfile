@@ -1,6 +1,10 @@
 pipeline{
     agent any
-   
+    
+    tools{
+        maven 'MAVEN3.8.4'
+    }
+
     environment{
         PROJECT_DIR = 'demo'
     }
