@@ -36,7 +36,7 @@ pipeline{
             steps{
                 dir("${env.PROJECT_DIR}"){
 
-                    make mvnw file executable for snyk scan
+                    // make mvnw file executable for snyk scan
                     sh 'chmod +x ./mvnw'
 
                     snykSecurity(
