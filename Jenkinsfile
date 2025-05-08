@@ -60,7 +60,7 @@ pipeline{
             steps{
                 dir("${env.PROJECT_DIR}"){
                     script{
-                        dockerImage = docker.build("${env.imageName}" + "$BUILD_NUMBER")
+                        dockerImage = docker.build("${env.imageName}" + ":$BUILD_NUMBER")
                     }
                 }
             }
@@ -81,7 +81,7 @@ pipeline{
 
         stage("clean workspace"){
             steps{
-                sh 'docker rmi $(docker images -a -q)'
+                sh 'docker rmi -f $(docker images -a -q)'
             }
         }
     }
