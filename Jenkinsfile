@@ -7,6 +7,10 @@ pipeline{
 
     environment{
         PROJECT_DIR = 'demo'
+
+        registryUrl = 'https://650251730135.dkr.ecr.us-east-1.amazonaws.com'
+        imageName = '650251730135.dkr.ecr.us-east-1.amazonaws.com/demo-app-ci'
+        registryCredentials = 'ecr:us-east-1:aws-jenkins-creds'
     }
 
     stages{
@@ -37,6 +41,9 @@ pipeline{
                 dir("${env.PROJECT_DIR}"){
 
                     // make mvnw file executable for snyk scan
+                    
+                    echo "running snyk test"
+
                     sh 'chmod +x ./mvnw'
 
                     snykSecurity(
@@ -49,21 +56,33 @@ pipeline{
             }
         }   
         
-        // stage("Build image"){
-        //     steps{
-        //         dir("${env.PROJECT_DIR}"){
-        //             script{
-        //                 docker.build(imageName + "$BUILD_NUMBER", )
-        //             }
-        //         }
-        //     }
-        // }   
-        // stage("Push image to registry"){
-        //     steps{
-        //         dir("${env.PROJECT_DIR}"){
-                
-        //         }
-        //     }
-        // }   
+        stage("Build image"){
+            steps{
+                dir("${env.PROJECT_DIR}"){
+                    script{
+                        dockerImage = docker.build("${env.imageName}" + "$BUILD_NUMBER")
+                    }
+                }
+            }
+        }   
+        
+        stage("Push image to registry"){
+            steps{
+                dir("${env.PROJECT_DIR}"){
+                    script{
+                        docker.withRegistry("${env.registryUrl}", "${env.registryCredentials}"){
+                            dockerImage.push("$BUILD_NUMBER")
+                            dockerImage.push("latest")
+                        }
+                    }
+                }
+            }
+        }  
+
+        stage("clean workspace"){
+            steps{
+                sh 'docker rmi $(docker images -a -q)'
+            }
+        }
     }
 }
