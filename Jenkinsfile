@@ -2,7 +2,7 @@ pipeline{
     agent any
     
     tools{
-        maven 'MAVEN3.8.4'
+        maven 'MAVEN3.8.7'
     }
 
     environment{
@@ -36,7 +36,7 @@ pipeline{
             steps{
                 dir("${env.PROJECT_DIR}"){
 
-                    // make mvnw file executable for snyk scan
+                    make mvnw file executable for snyk scan
                     sh 'chmod +x ./mvnw'
 
                     snykSecurity(
@@ -52,7 +52,9 @@ pipeline{
         // stage("Build image"){
         //     steps{
         //         dir("${env.PROJECT_DIR}"){
-                
+        //             script{
+        //                 docker.build(imageName + "$BUILD_NUMBER", )
+        //             }
         //         }
         //     }
         // }   
