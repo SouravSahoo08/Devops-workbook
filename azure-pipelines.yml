@@ -13,14 +13,14 @@ pool:
   
 
 variables:
-  projectDir: 'demo'
+  projectDir: 'demo'  
 
 steps:
 - task: Maven@4
   displayName: 'Maven Build and Test'
 
   inputs:
-    mavenPomFile: 'demo/pom.xml'
+    mavenPomFile: '$(projectDir)/pom.xml'
     goals: 'clean package test'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -29,3 +29,9 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'Snyk-api-connection'
+    testType: 'code'
+    failOnIssues: false
+    organization: 'Jack-Practice-org'
