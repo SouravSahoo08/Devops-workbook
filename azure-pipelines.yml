@@ -34,4 +34,4 @@ steps:
     serviceConnectionEndpoint: 'Snyk-api-connection'
     testType: 'code'
     failOnIssues: false
-    organization: 'Jack-Practice-org'
+    organization: 'jack-practice-org'
